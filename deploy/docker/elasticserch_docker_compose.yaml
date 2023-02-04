@@ -2,6 +2,9 @@ version: "3.0"
 services:
   elasticsearch:
     container_name: elastic-container
+    working_dir: /application
+    volumes:
+      - ./db_data:/application
     image: docker.elastic.co/elasticsearch/elasticsearch:8.2.3
     environment:
       - xpack.security.enabled=false

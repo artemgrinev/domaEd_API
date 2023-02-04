@@ -5,8 +5,8 @@ from starlette.requests import Request
 from elasticsearch import AsyncElasticsearch
 from logging import getLogger, StreamHandler
 
-from db.maps import MAPPING_FOR_PRODUCT, MAPPING_FOR_RECIPES
-from db.schemas import CreateProductRequest, GetProductRequest, DeleteIndexRequest, CreateRecipesRequest, \
+from db.elasticsearch.maps import MAPPING_FOR_PRODUCT, MAPPING_FOR_RECIPES
+from db.elasticsearch.schemas import CreateProductRequest, GetProductRequest, DeleteIndexRequest, CreateRecipesRequest, \
     GetRecipesRequest
 
 logger = getLogger(__name__)
@@ -107,7 +107,7 @@ routes = [
     APIRoute(path="/get_recipes", endpoint=get_recipes, methods=["POST"]),
 ]
 
-elastic_client = AsyncElasticsearch()
+elastic_client = AsyncElasticsearch('http://localhost:9200')
 app = FastAPI()
 app.state.elastic_client = elastic_client
 app.include_router(APIRouter(routes=routes))
